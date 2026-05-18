@@ -20,7 +20,6 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Candidature::class => CandidaturePolicy::class,
         Entretien::class   => EntretienPolicy::class,
-        Fichier::class     => FichierPolicy::class,
     ];
 
     /**
