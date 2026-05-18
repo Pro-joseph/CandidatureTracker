@@ -63,4 +63,14 @@ class CandidatureController extends Controller
     {
         //
     }
+
+    public function archive(Candidature $candidature)
+    {
+        //
+    }
+
+    public function archives()
+    {
+        //
+    }
 }
