@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        :root {
+        [data-theme="dark"] {
             --bg-base:       #0c0e14;
             --bg-surface:    #13161f;
             --bg-raised:     #1a1e2b;
@@ -32,14 +32,41 @@
             --warning:       #f5a623;
             --danger:        #f25f5c;
             --info:          #38bdf8;
+            --shadow-sm:     0 1px 3px rgba(0,0,0,.4);
+            --shadow-md:     0 4px 16px rgba(0,0,0,.5);
+            --shadow-lg:     0 12px 40px rgba(0,0,0,.6);
+        }
+
+        [data-theme="light"] {
+            --bg-base:       #f4f6fa;
+            --bg-surface:    #ffffff;
+            --bg-raised:     #eef1f6;
+            --bg-overlay:    #e4e8f0;
+            --border:        #d0d6e0;
+            --border-light:  #b8bfcc;
+            --text-primary:  #1a1d26;
+            --text-secondary:#5a6072;
+            --text-muted:    #8b92a5;
+            --accent:        #4f7cff;
+            --accent-glow:   rgba(79,124,255,0.12);
+            --accent-hover:  #3b64d9;
+            --success:       #16a34a;
+            --warning:       #d97706;
+            --danger:        #dc2626;
+            --info:          #0284c7;
+            --shadow-sm:     0 1px 3px rgba(0,0,0,.08);
+            --shadow-md:     0 4px 16px rgba(0,0,0,.1);
+            --shadow-lg:     0 12px 40px rgba(0,0,0,.13);
+        }
+
+        [data-theme="light"] body::before { opacity: 0; }
+
+        :root {
             --font-display:  'Syne', sans-serif;
             --font-body:     'DM Sans', sans-serif;
             --radius-sm:     6px;
             --radius-md:     10px;
             --radius-lg:     16px;
-            --shadow-sm:     0 1px 3px rgba(0,0,0,.4);
-            --shadow-md:     0 4px 16px rgba(0,0,0,.5);
-            --shadow-lg:     0 12px 40px rgba(0,0,0,.6);
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -827,6 +854,15 @@
             <header class="topbar">
                 <div class="page-breadcrumb">@yield('breadcrumb', 'Tableau de bord')</div>
                 <div class="topbar-actions">
+                    <button id="theme-toggle" class="btn btn-secondary btn-sm btn-icon" title="Changer le thème"
+                            onclick="toggleTheme()">
+                        <svg id="theme-icon-sun" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <svg id="theme-icon-moon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display:none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
                     <a href="{{ route('candidatures.create') }}" class="btn btn-primary btn-sm">
                         <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -868,6 +904,31 @@
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') sidebar.classList.remove('open');
         });
+
+        // Theme toggle
+        const html = document.documentElement;
+        const sun = document.getElementById('theme-icon-sun');
+        const moon = document.getElementById('theme-icon-moon');
+
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (theme === 'light') {
+                sun.style.display = 'none';
+                moon.style.display = '';
+            } else {
+                sun.style.display = '';
+                moon.style.display = 'none';
+            }
+        }
+
+        function toggleTheme() {
+            setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        }
+
+        // Restore saved theme
+        const saved = localStorage.getItem('theme');
+        if (saved) setTheme(saved);
     </script>
     @stack('scripts')
 </body>

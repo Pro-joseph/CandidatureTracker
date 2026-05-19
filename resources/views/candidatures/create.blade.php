@@ -23,7 +23,7 @@
     </div>
     <div class="card-body">
 
-        <form method="POST" action="{{ route('candidatures.store') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('candidatures.store') }}">
             @csrf
 
             <div class="form-row">
@@ -53,13 +53,13 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="url_offre">URL de l'offre</label>
-                <input type="url" id="url_offre" name="url_offre"
+                <label class="form-label" for="url">URL de l'offre</label>
+                <input type="url" id="url" name="url"
                        class="form-control"
-                       value="{{ old('url_offre') }}"
+                       value="{{ old('url') }}"
                        placeholder="https://www.linkedin.com/jobs/…">
                 <p class="form-hint">Optionnel — lien vers l'annonce originale</p>
-                @error('url_offre')
+                @error('url')
                     <div class="form-error">{{ $message }}</div>
                 @enderror
             </div>
@@ -69,12 +69,11 @@
                     <label class="form-label" for="statut">Statut <span style="color:var(--danger)">*</span></label>
                     <select id="statut" name="statut" class="form-select" required>
                         <option value="" disabled {{ old('statut') ? '' : 'selected' }}>Choisir un statut</option>
-                        <option value="candidature_envoyee" {{ old('statut') === 'candidature_envoyee' ? 'selected' : '' }}>Candidature envoyée</option>
-                        <option value="relance"             {{ old('statut') === 'relance'             ? 'selected' : '' }}>Relance</option>
-                        <option value="entretien_planifie"  {{ old('statut') === 'entretien_planifie'  ? 'selected' : '' }}>Entretien planifié</option>
-                        <option value="offre_recue"         {{ old('statut') === 'offre_recue'         ? 'selected' : '' }}>Offre reçue</option>
-                        <option value="refus"               {{ old('statut') === 'refus'               ? 'selected' : '' }}>Refus</option>
-                        <option value="accepte"             {{ old('statut') === 'accepte'             ? 'selected' : '' }}>Accepté</option>
+                        @foreach(\App\Models\Candidature::STATUTS as $value => $label)
+                            <option value="{{ $value }}" {{ old('statut') === $value ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('statut')
                         <div class="form-error">{{ $message }}</div>
@@ -85,9 +84,11 @@
                     <label class="form-label" for="priorite">Priorité <span style="color:var(--danger)">*</span></label>
                     <select id="priorite" name="priorite" class="form-select" required>
                         <option value="" disabled {{ old('priorite') ? '' : 'selected' }}>Choisir une priorité</option>
-                        <option value="haute"   {{ old('priorite') === 'haute'   ? 'selected' : '' }}>Haute</option>
-                        <option value="moyenne" {{ old('priorite') === 'moyenne' ? 'selected' : '' }}>Moyenne</option>
-                        <option value="basse"   {{ old('priorite') === 'basse'   ? 'selected' : '' }}>Basse</option>
+                        @foreach(\App\Models\Candidature::PRIORITES as $value => $label)
+                            <option value="{{ $value }}" {{ old('priorite') === $value ? 'selected' : '' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
                     </select>
                     @error('priorite')
                         <div class="form-error">{{ $message }}</div>
@@ -111,26 +112,6 @@
                 <textarea id="notes" name="notes" class="form-textarea"
                           placeholder="Contact RH, contexte de l'annonce, points clés…">{{ old('notes') }}</textarea>
                 @error('notes')
-                    <div class="form-error">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="divider"></div>
-
-            {{-- File attachment (Bonus) --}}
-            <div class="form-group">
-                <label class="form-label">Pièce jointe</label>
-                <label for="fichier" class="file-drop" style="cursor:pointer;">
-                    <span>📎</span>
-                    <p>Glissez un fichier ou <strong style="color:var(--accent);">parcourez</strong></p>
-                    <p style="font-size:12px;margin-top:4px;">CV, lettre de motivation, autre document — max 5 Mo</p>
-                    <input type="file" id="fichier" name="fichier"
-                           style="display:none;"
-                           accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                           onchange="document.getElementById('file-name').textContent = this.files[0]?.name ?? ''">
-                </label>
-                <p id="file-name" style="font-size:13px;color:var(--accent);margin-top:6px;"></p>
-                @error('fichier')
                     <div class="form-error">{{ $message }}</div>
                 @enderror
             </div>

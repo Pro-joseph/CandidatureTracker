@@ -23,19 +23,20 @@
 
     <select name="statut" class="form-select" onchange="this.form.submit()">
         <option value="">Tous les statuts</option>
-        <option value="candidature_envoyee"  {{ request('statut') === 'candidature_envoyee'  ? 'selected' : '' }}>Candidature envoyée</option>
-        <option value="relance"              {{ request('statut') === 'relance'              ? 'selected' : '' }}>Relance</option>
-        <option value="entretien_planifie"   {{ request('statut') === 'entretien_planifie'   ? 'selected' : '' }}>Entretien planifié</option>
-        <option value="offre_recue"          {{ request('statut') === 'offre_recue'          ? 'selected' : '' }}>Offre reçue</option>
-        <option value="refus"                {{ request('statut') === 'refus'                ? 'selected' : '' }}>Refus</option>
-        <option value="accepte"              {{ request('statut') === 'accepte'              ? 'selected' : '' }}>Accepté</option>
+        @foreach(\App\Models\Candidature::STATUTS as $value => $label)
+            <option value="{{ $value }}" {{ request('statut') === $value ? 'selected' : '' }}>
+                {{ $label }}
+            </option>
+        @endforeach
     </select>
 
     <select name="priorite" class="form-select" onchange="this.form.submit()">
         <option value="">Toutes les priorités</option>
-        <option value="haute"   {{ request('priorite') === 'haute'   ? 'selected' : '' }}>Haute</option>
-        <option value="moyenne" {{ request('priorite') === 'moyenne' ? 'selected' : '' }}>Moyenne</option>
-        <option value="basse"   {{ request('priorite') === 'basse'   ? 'selected' : '' }}>Basse</option>
+        @foreach(\App\Models\Candidature::PRIORITES as $value => $label)
+            <option value="{{ $value }}" {{ request('priorite') === $value ? 'selected' : '' }}>
+                {{ $label }}
+            </option>
+        @endforeach
     </select>
 
     @if(request('statut') || request('priorite'))
