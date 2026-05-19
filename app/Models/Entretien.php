@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Entretien extends Model
 {
-    //
+     return $this->belongsTo(Candidature::class);
 }
