@@ -96,4 +96,15 @@ class CandidatureController extends Controller
 
         return redirect()->route('archives.index');
     }
+
+    public function forceDelete($id)
+    {
+        $candidature = Candidature::onlyTrashed()->findOrFail($id);
+
+        $this->authorize('forceDelete', $candidature);
+
+        $candidature->forceDelete();
+
+        return redirect()->route('archives.index');
+    }
 }
