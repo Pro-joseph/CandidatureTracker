@@ -45,6 +45,7 @@
                             </td>
                             <td>
                                 <div style="display:flex;gap:6px;">
+                                @can('restore', $candidature)
                                 <form method="POST" action="{{ route('candidatures.restore', $candidature->id) }}"
                                       onsubmit="return confirm('Restaurer cette candidature ?')">
                                     @csrf
@@ -55,6 +56,8 @@
                                         Restaurer
                                     </button>
                                 </form>
+                                @endcan
+                                @can('forceDelete', $candidature)
                                 <form method="POST" action="{{ route('candidatures.force-delete', $candidature->id) }}"
                                       onsubmit="return confirm('Supprimer définitivement ? Cette action est irréversible.')">
                                     @csrf
@@ -66,6 +69,7 @@
                                         Supprimer
                                     </button>
                                 </form>
+                                @endcan
                                 </div>
                             </td>
                         </tr>
