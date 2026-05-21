@@ -8,6 +8,9 @@ use App\Http\Requests\UpdateCandidatureRequest;
 
 class CandidatureController extends Controller
 {
+    /**
+     * Liste paginée des candidatures de l'utilisateur connecté, avec filtrage.
+     */
     public function index()
     {
         $candidatures = Candidature::where('user_id', auth()->id())
@@ -19,11 +22,17 @@ class CandidatureController extends Controller
         return view('candidatures.index', compact('candidatures'));
     }
 
+    /**
+     * Affiche le formulaire de création d'une candidature.
+     */
     public function create()
     {
         return view('candidatures.create');
     }
 
+    /**
+     * Enregistre une nouvelle candidature.
+     */
     public function store(StoreCandidatureRequest $request)
     {
         Candidature::create([
@@ -34,6 +43,9 @@ class CandidatureController extends Controller
         return redirect()->route('candidatures.index');
     }
 
+    /**
+     * Affiche le détail d'une candidature avec ses entretiens.
+     */
     public function show(Candidature $candidature)
     {
         $this->authorize('view', $candidature);
@@ -43,6 +55,9 @@ class CandidatureController extends Controller
         return view('candidatures.show', compact('candidature'));
     }
 
+    /**
+     * Affiche le formulaire d'édition d'une candidature.
+     */
     public function edit(Candidature $candidature)
     {
         $this->authorize('update', $candidature);
@@ -50,6 +65,9 @@ class CandidatureController extends Controller
         return view('candidatures.edit', compact('candidature'));
     }
 
+    /**
+     * Met à jour une candidature existante.
+     */
     public function update(UpdateCandidatureRequest $request, Candidature $candidature)
     {
         $this->authorize('update', $candidature);
@@ -59,16 +77,22 @@ class CandidatureController extends Controller
         return redirect()->route('candidatures.show', $candidature);
     }
 
+    /**
+     * Supprime (soft delete) une candidature.
+     */
     public function destroy(Candidature $candidature)
     {
         $this->authorize('delete', $candidature);
 
-        $candidature->delete(); // soft delete
+        $candidature->delete();
 
         return redirect()->route('candidatures.index');
     }
-    
-        public function archive(Candidature $candidature)
+
+    /**
+     * Archive une candidature (soft delete).
+     */
+    public function archive(Candidature $candidature)
     {
         $this->authorize('archive', $candidature);
 
@@ -77,6 +101,9 @@ class CandidatureController extends Controller
         return redirect()->route('candidatures.index');
     }
 
+    /**
+     * Liste les candidatures archivées (soft deleted).
+     */
     public function archives()
     {
         $candidatures = Candidature::onlyTrashed()
@@ -86,6 +113,9 @@ class CandidatureController extends Controller
         return view('candidatures.archives', compact('candidatures'));
     }
 
+    /**
+     * Restaure une candidature depuis les archives.
+     */
     public function restore($id)
     {
         $candidature = Candidature::onlyTrashed()->findOrFail($id);
@@ -97,6 +127,9 @@ class CandidatureController extends Controller
         return redirect()->route('archives.index');
     }
 
+    /**
+     * Supprime définitivement une candidature archivée.
+     */
     public function forceDelete($id)
     {
         $candidature = Candidature::onlyTrashed()->findOrFail($id);

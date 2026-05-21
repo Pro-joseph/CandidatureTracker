@@ -7,11 +7,13 @@ use App\Models\Entretien;
 
 class UpdateEntretienRequest extends FormRequest
 {
+    /** Autorise toujours la requête (la protection est assurée par les policies) */
     public function authorize(): bool
     {
         return true;
     }
 
+    /** Règles de validation pour la modification d'un entretien */
     public function rules(): array
     {
         return [

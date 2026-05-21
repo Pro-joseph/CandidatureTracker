@@ -7,11 +7,13 @@ use App\Models\Candidature;
 
 class UpdateCandidatureRequest extends FormRequest
 {
+    /** Autorise toujours la requête (la protection est assurée par les policies) */
     public function authorize(): bool
     {
         return true;
     }
 
+    /** Règles de validation pour la modification d'une candidature */
     public function rules(): array
     {
         return [

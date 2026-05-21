@@ -29,6 +29,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /** Relation : candidatures de l'utilisateur */
     public function candidatures()
 {
     return $this->hasMany(Candidature::class);
