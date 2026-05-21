@@ -7,11 +7,13 @@ use App\Models\Candidature;
 
 class StoreCandidatureRequest extends FormRequest
 {
+    /** Autorise toujours la requête (la protection est assurée par le middleware auth) */
     public function authorize(): bool
     {
-        return true; // auth middleware already protects
+        return true;
     }
 
+    /** Règles de validation pour la création d'une candidature */
     public function rules(): array
     {
         return [

@@ -9,6 +9,9 @@ use App\Http\Requests\UpdateEntretienRequest;
 
 class EntretienController extends Controller
 {
+    /**
+     * Ajoute un entretien à une candidature.
+     */
     public function store(StoreEntretienRequest $request, Candidature $candidature)
     {
         $this->authorize('update', $candidature);
@@ -18,6 +21,9 @@ class EntretienController extends Controller
         return back();
     }
 
+    /**
+     * Met à jour un entretien existant.
+     */
     public function update(UpdateEntretienRequest $request, Entretien $entretien)
     {
         $this->authorize('update', $entretien->candidature);
@@ -27,6 +33,9 @@ class EntretienController extends Controller
         return back();
     }
 
+    /**
+     * Supprime un entretien.
+     */
     public function destroy(Entretien $entretien)
     {
         $this->authorize('update', $entretien->candidature);
