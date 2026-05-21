@@ -44,6 +44,14 @@ class CandidaturePolicy
     }
 
     /**
+     * Determine whether the user can delete (soft delete) the candidature.
+     */
+    public function delete(User $user, Candidature $candidature): bool
+    {
+        return $user->id === $candidature->user_id;
+    }
+
+    /**
      * Determine whether the user can archive (soft delete) the candidature.
      */
     public function archive(User $user, Candidature $candidature): bool

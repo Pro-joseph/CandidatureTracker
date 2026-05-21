@@ -3,25 +3,39 @@
 @section('breadcrumb', 'Candidatures / ' . $candidature->entreprise)
 
 @section('content')
-
 <div class="page-header animate-in">
     <div>
         <h1 class="page-title">{{ $candidature->entreprise }}</h1>
         <p class="page-subtitle">{{ $candidature->poste }}</p>
     </div>
-    <div style="display:flex;gap:10px;">
-        <a href="{{ route('candidatures.index') }}" class="btn btn-secondary">
-            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Retour
+            <div style="display:flex;gap:10px;">
+            <a href="{{ route('candidatures.index') }}" class="btn btn-secondary">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Retour
         </a>
-        <a href="{{ route('candidatures.edit', $candidature) }}" class="btn btn-primary">
-            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
-            Modifier
-        </a>
+        @can('update', $candidature)
+            <a href="{{ route('candidatures.edit', $candidature) }}" class="btn btn-primary">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                Modifier
+            </a>
+        @endcan
+        @can('archive', $candidature)
+        <form method="POST" action="{{ route('candidatures.archive', $candidature) }}"
+              onsubmit="return confirm('Archiver cette candidature ?')">
+            @csrf
+            @method('PATCH')
+            <button type="submit" class="btn btn-danger">
+                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                </svg>
+                Archiver
+            </button>
+        </form>
+        @endcan
     </div>
 </div>
 
@@ -69,14 +83,17 @@
 <div class="card animate-in stagger-2" style="margin-top:20px;">
     <div class="card-header">
         <span class="card-title">Entretiens ({{ $candidature->entretiens->count() }})</span>
+        @can('update', $candidature)
         <button class="btn btn-primary btn-sm" onclick="document.getElementById('new-entretien').classList.toggle('hidden')">
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
             Ajouter
         </button>
+        @endcan
     </div>
 
+    @can('update', $candidature)
     <div id="new-entretien" class="hidden" style="padding:20px 24px;border-bottom:1px solid var(--border);">
         <form method="POST" action="{{ route('entretiens.store', $candidature) }}">
             @csrf
@@ -104,6 +121,7 @@
             </div>
         </form>
     </div>
+    @endcan
 
     @forelse($candidature->entretiens as $entretien)
         <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px;">
@@ -124,6 +142,7 @@
                     $r = $resultatMap[$entretien->resultat] ?? ['badge-neutre', $entretien->resultat];
                 @endphp
                 <span class="badge {{ $r[0] }}">{{ $r[1] }}</span>
+                @can('update', $entretien->candidature)
                 <form method="POST" action="{{ route('entretiens.destroy', $entretien) }}"
                       onsubmit="return confirm('Supprimer cet entretien ?')">
                     @csrf
@@ -134,6 +153,7 @@
                         </svg>
                     </button>
                 </form>
+                @endcan
             </div>
         </div>
     @empty
@@ -147,5 +167,4 @@
 <style>
     .hidden { display: none; }
 </style>
-
 @endsection

@@ -5,10 +5,12 @@
 @section('content')
 
 <div class="page-header animate-in">
+   @can('create', \App\Models\Candidature::class)
     <div>
         <h1 class="page-title">Nouvelle candidature</h1>
         <p class="page-subtitle">Enregistrez une nouvelle opportunité d'emploi.</p>
     </div>
+   @endcan
     <a href="{{ route('candidatures.index') }}" class="btn btn-secondary">
         <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>

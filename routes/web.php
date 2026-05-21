@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('candidatures', CandidatureController::class);
     Route::match(['get', 'patch'], 'candidatures/{candidature}/archive', [CandidatureController::class, 'archive'])->name('candidatures.archive');
     Route::post('candidatures/{id}/restore', [CandidatureController::class, 'restore'])->name('candidatures.restore');
+    Route::delete('candidatures/{id}/force-delete', [CandidatureController::class, 'forceDelete'])->name('candidatures.force-delete');
     Route::get('archives', [CandidatureController::class, 'archives'])->name('archives.index');
 
     Route::post('candidatures/{candidature}/entretiens', [EntretienController::class, 'store'])->name('entretiens.store');
