@@ -11,16 +11,25 @@ class CandidatureController extends Controller
     /**
      * Liste paginée des candidatures de l'utilisateur connecté, avec filtrage.
      */
-    public function index()
-    {
-        $candidatures = Candidature::where('user_id', auth()->id())
-            ->filter(request()->only('statut', 'priorite'))
-            ->withCount('entretiens')
-            ->latest()
-            ->paginate(15);
+   public function index()
+{
+    $candidatures = Candidature::where('user_id', auth()->id())
+        ->filter(request()->only(['statut', 'priorite']))
+        ->with('entretiens:id,candidature_id,date_heure')
+        ->withCount('entretiens')
+        ->latest()
+        ->paginate(15);
 
-        return view('candidatures.index', compact('candidatures'));
-    }
+    return view('candidatures.index', compact('candidatures'));
+}
+
+// public function index() { 
+//     $candidatures = Candidature::where('user_id', auth()->id()) 
+//     ->filter(request()->only('statut', 'priorite')) 
+//     ->withCount('entretiens') ->latest() 
+//     ->paginate(15); return view('candidatures.index',
+//      compact('candidatures')); 
+//      }
 
     /**
      * Affiche le formulaire de création d'une candidature.
