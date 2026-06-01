@@ -53,6 +53,5 @@ php artisan serve
 |---|---|---|
 | `APP_URL` | `http://localhost` | URL de l'application |
 | `DB_CONNECTION` | `sqlite` | Base de données |
-| `SESSION_DRIVER` | `database` | Stockage des sessions |
 | `QUEUE_CONNECTION` | `database` | File d'attente |
 | `CACHE_STORE` | `database` | Cache |
