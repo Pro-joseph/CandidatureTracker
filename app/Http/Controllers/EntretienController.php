@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidature;
 use App\Models\Entretien;
 use App\Http\Requests\StoreEntretienRequest;
 use App\Http\Requests\UpdateEntretienRequest;
@@ -9,58 +10,38 @@ use App\Http\Requests\UpdateEntretienRequest;
 class EntretienController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Ajoute un entretien à une candidature.
      */
-    public function index()
+    public function store(StoreEntretienRequest $request, Candidature $candidature)
     {
-        //
+        $this->authorize('update', $candidature);
+
+        $candidature->entretiens()->create($request->validated());
+
+        return back();
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEntretienRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Entretien $entretien)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Entretien $entretien)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Met à jour un entretien existant.
      */
     public function update(UpdateEntretienRequest $request, Entretien $entretien)
     {
-        //
+        $this->authorize('update', $entretien->candidature);
+
+        $entretien->update($request->validated());
+
+        return back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime un entretien.
      */
     public function destroy(Entretien $entretien)
     {
-        //
+        $this->authorize('update', $entretien->candidature);
+
+        $entretien->delete();
+
+        return back();
     }
 }
