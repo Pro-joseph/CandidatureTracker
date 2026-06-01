@@ -49,10 +49,27 @@ php artisan serve
 
 ### Configuration minimale
 
-| Variable | Valeur par défaut | Description |
-|---|---|---|
-| `APP_URL` | `http://localhost` | URL de l'application |
-| `DB_CONNECTION` | `sqlite` | Base de données |
-| `SESSION_DRIVER` | `database` | Stockage des sessions |
-| `QUEUE_CONNECTION` | `database` | File d'attente |
-| `CACHE_STORE` | `database` | Cache |
+| Variable           | Valeur par défaut  | Description          |
+| ------------------ | ------------------ | -------------------- |
+| `APP_URL`          | `http://localhost` | URL de l'application |
+| `DB_CONNECTION`    | `sqlite`           | Base de données      |
+| `QUEUE_CONNECTION` | `database`         | File d'attente       |
+| `CACHE_STORE`      | `database`         | Cache                |
+
+### User Stories
+
+- **US1** — Inscription / Connexion / Déconnexion En tant qu'utilisateur, je veux créer mon compte, me connecter et me déconnecter.
+- **US2** — Liste de mes candidatures En tant qu'utilisateur connecté, je veux voir toutes mes candidatures actives avec les informations essentielles de chacune en un coup d'œil.
+- **US3** — Créer une candidature En tant qu'utilisateur connecté, je veux enregistrer une nouvelle candidature avec : le nom de l'entreprise, le poste visé, l'URL de l'offre (optionnel), le statut, la priorité, des notes libres et la date de candidature.
+- **US4** — Voir le détail d'une candidature En tant qu'utilisateur connecté, je veux consulter le détail complet d'une candidature ainsi que tous les entretiens qui lui sont associés.
+- **US5** — Modifier une candidature En tant qu'utilisateur connecté, je veux modifier les informations d'une de mes candidatures.
+- **US6** — Archiver une candidature En tant qu'utilisateur connecté, je veux archiver une candidature terminée pour la retirer de ma liste principale sans la supprimer définitivement.
+- **US7** — Page Archives En tant qu'utilisateur connecté, je veux consulter mes candidatures archivées dans une page dédiée.
+- **US8** — Restaurer une candidature En tant qu'utilisateur connecté, je veux restaurer une candidature archivée pour la remettre dans ma liste active.
+- **US9** — Filtres : filtrer la liste des candidatures par statut et/ou priorité.
+- **US10** — Ajouter un entretien En tant qu'utilisateur connecté, je veux ajouter un entretien à une candidature avec : le type, la date et l'heure planifiée, des notes de préparation (optionnel) et le résultat.
+- **US11** — Modifier / Supprimer un entretien En tant qu'utilisateur connecté, je veux modifier les informations d'un entretien ou le supprimer.
+
+### Agile Organization
+
+Kanban board on Jira with Daily standups.
