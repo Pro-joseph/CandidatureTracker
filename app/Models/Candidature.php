@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -39,7 +40,7 @@ class Candidature extends Model
     ];
 
     /** Filtre les candidatures par statut et/ou priorité */
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter(Builder $query, array $filters)
     {
         return $query
             ->when($filters['statut'] ?? null, fn($q, $v) => $q->where('statut', $v))

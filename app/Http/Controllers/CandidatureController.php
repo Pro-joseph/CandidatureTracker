@@ -125,7 +125,7 @@ class CandidatureController extends Controller
     /**
      * Restaure une candidature depuis les archives.
      */
-    public function restore($id)
+    public function restore(int $id)
     {
         $candidature = Candidature::onlyTrashed()->findOrFail($id);
 
@@ -139,7 +139,7 @@ class CandidatureController extends Controller
     /**
      * Supprime définitivement une candidature archivée.
      */
-    public function forceDelete($id)
+    public function forceDelete(int $id)
     {
         $candidature = Candidature::onlyTrashed()->findOrFail($id);
 
